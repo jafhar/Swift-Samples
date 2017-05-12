@@ -13,8 +13,7 @@ class ViewController: NSViewController {
     var textLayer:CATextLayer!
     var text: String? {
         didSet {
-//            let font = NSFont.systemFont(ofSize: textLayer.font as! CGFloat)
-            let font = NSFont.systemFont(ofSize: 24.0)
+            let font = NSFont.systemFont(ofSize: textLayer.fontSize)
             let attributes = [NSFontAttributeName: font]
             var size = text?.size(withAttributes: attributes) ?? CGSize.zero
             
@@ -140,13 +139,6 @@ class ViewController: NSViewController {
         
         let url = NSURL(fileURLWithPath:"/Library/Desktop Pictures")
         addImagesFromFolderURL(folderURL: url)
-    }
-
-//    override var representedObject: Any? {
-//        didSet {
-//        // Update the view, if already loaded.
-//        }
-//    }
-    
+    }    
 }
 
