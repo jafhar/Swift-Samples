@@ -10,8 +10,8 @@ import Cocoa
 
 class ViewController: NSViewController {
     
-    var textLayer:CATextLayer!
-    var text: String? {
+    private var textLayer:CATextLayer!
+    private var text: String? {
         didSet {
             let font = NSFont.systemFont(ofSize: textLayer.fontSize)
             let attributes = [NSFontAttributeName: font]
@@ -28,7 +28,8 @@ class ViewController: NSViewController {
         }
     }
     
-    func addImagesFromFolderURL(folderURL: NSURL) {
+    //MARK: Add images from desktop pictures
+    private func addImagesFromFolder(folderURL: NSURL) {
         
         let t0 = NSDate.timeIntervalSinceReferenceDate
         let fileManager = FileManager()
@@ -61,7 +62,8 @@ class ViewController: NSViewController {
         }
     }
     
-    func presentImage(image: NSImage) {
+    //MARK: Presenting the image
+    private func presentImage(image: NSImage) {
         let superLayerBounds = view.layer?.bounds
         let center = CGPoint(x:(superLayerBounds?.midX)!, y:(superLayerBounds?.midY)!)
         let imageBounds = CGRect.init(origin: CGPoint.zero, size: image.size)
@@ -81,7 +83,7 @@ class ViewController: NSViewController {
         
         let layer = CALayer()
         layer.contents = image
-        layer.actions = ["position" : positionAnimation, "bounds" : boundsAnimation]
+        layer.actions = [Constant.positionKey : positionAnimation, Constant.boundsKey : boundsAnimation]
         CATransaction.begin()
         
         view.layer?.addSublayer(layer)
@@ -91,7 +93,8 @@ class ViewController: NSViewController {
         
     }
     
-    func thumbImageFromImage(image: NSImage) -> NSImage {
+    //MARK: Getting smaller image
+    private func thumbImageFromImage(image: NSImage) -> NSImage {
         let targetHeight: CGFloat = 200.0
         let imageSize = image.size
         let smallerSize = NSSize(width: targetHeight * imageSize.width / imageSize.height, height: targetHeight)
@@ -104,6 +107,7 @@ class ViewController: NSViewController {
         return smallerImage
     }
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -135,10 +139,10 @@ class ViewController: NSViewController {
         
         
         //Rely on text's didSet to update text's bound
-        text = "Loading..."
+        text = Constant.defaultText
         
-        let url = NSURL(fileURLWithPath:"/Library/Desktop Pictures")
-        addImagesFromFolderURL(folderURL: url)
+        let url = NSURL(fileURLWithPath:Constant.imagesPath)
+        addImagesFromFolder(folderURL: url)
     }    
 }
 
